@@ -43,7 +43,6 @@ class HomeActivity : ComponentActivity() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
 fun HomePage(modifier: Modifier = Modifier){
