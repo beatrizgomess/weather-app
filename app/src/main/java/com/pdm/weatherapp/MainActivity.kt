@@ -17,10 +17,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.pdm.weatherapp.ui.theme.WeatherAppTheme
 
-class HomeActivity : ComponentActivity() {
+class HomeActivity: ComponentActivity() {
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,7 +54,7 @@ class HomeActivity : ComponentActivity() {
                 )
 
                 {innerPadding -> Box(modifier = Modifier.padding(innerPadding)){
-                    MainNavHost(navController = navController)
+                    MainNavHost(navController = navController, viewModel = FavoriteCitiesViewModel())
                 }
 
                 }

@@ -45,14 +45,13 @@ fun BottomNavBar(navController: NavHostController) {
 }
 
 @Composable
-fun MainNavHost(navController: NavHostController) {
+fun MainNavHost(navController: NavHostController, viewModel: FavoriteCitiesViewModel) {
     NavHost(navController = navController, startDestination = BottomNavItem.HomePage.route) {
-// composable (route = NOME DESTA DESTINAÇÃO) { UI DA DESTINAÇÃO }
         composable(route = BottomNavItem.HomePage.route) {
             HomePage()
         }
         composable(route = BottomNavItem.ListPage.route) {
-            ListPage()
+            ListPage(viewModel = FavoriteCitiesViewModel())
         }
         composable(route = BottomNavItem.MapPage.route) {
             MapPage()

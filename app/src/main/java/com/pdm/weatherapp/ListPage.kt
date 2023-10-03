@@ -29,10 +29,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-@Preview
+
 @Composable
-fun ListPage(modifier: Modifier = Modifier) {
-    val cityList = remember { getFavoriteCities().toMutableStateList() }
+fun ListPage(
+    modifier: Modifier = Modifier,
+    viewModel: FavoriteCitiesViewModel
+) {
+    val cityList: List<FavoriteCity> = viewModel.cities
     val toastMessageListPage = LocalContext.current as? Activity
 
     LazyColumn(
@@ -42,7 +45,7 @@ fun ListPage(modifier: Modifier = Modifier) {
     ) {
        items(cityList){ city ->
            FavoriteCityItem(favoriteCity = city, onClose = {
-
+            viewModel.remove(city)
            }) {
                Toast.makeText(toastMessageListPage, "This is a Toast", Toast.LENGTH_LONG).show()
                toastMessageListPage?.startActivity(
@@ -56,12 +59,7 @@ fun ListPage(modifier: Modifier = Modifier) {
     }
 }
 
-data class FavoriteCity(val cityName: String, var currentWeather: String)
 
-
-private fun getFavoriteCities() = List(30){
-    i -> FavoriteCity(cityName = "Cidade $i", currentWeather = "Carregando clima...")
-}
 
 @Composable
 fun FavoriteCityItem(
