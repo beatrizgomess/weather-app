@@ -1,6 +1,5 @@
 package com.pdm.weatherapp
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -16,19 +15,30 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.pdm.weatherapp.ui.theme.WeatherAppTheme
 
-class HomeActivity: ComponentActivity() {
-    @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+class HomeActivity : ComponentActivity() {
+
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            val showDialog = remember { mutableStateOf(false) }
             val navController = rememberNavController()
             WeatherAppTheme {
+                if (showDialog.value) FavCityDialog(
+                    onDismiss = { showDialog.value = false },
+                    onConfirm = { city ->
+                        if (city.isNotBlank()){
+                            FavoriteCitiesViewModel().add(city)
+                        }
+                        showDialog.value = false
+                    })
                 Scaffold(
                     topBar = {
                         TopAppBar(
@@ -47,7 +57,7 @@ class HomeActivity: ComponentActivity() {
                         BottomNavBar(navController = navController)
                     },
                     floatingActionButton = {
-                        FloatingActionButton(onClick = { }) {
+                        FloatingActionButton(onClick = { showDialog.value = true }) {
                             Icon(Icons.Default.Add, contentDescription = "Adicionar")
                         }
                     }
