@@ -18,6 +18,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.pdm.weatherapp.ui.theme.WeatherAppTheme
@@ -27,6 +28,7 @@ class HomeActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val viewModelFavorite = FavoriteCitiesViewModel();
         setContent {
             val showDialog = remember { mutableStateOf(false) }
             val navController = rememberNavController()
@@ -35,7 +37,7 @@ class HomeActivity : ComponentActivity() {
                     onDismiss = { showDialog.value = false },
                     onConfirm = { city ->
                         if (city.isNotBlank()){
-                            FavoriteCitiesViewModel().add(city)
+                            viewModelFavorite.add(city)
                         }
                         showDialog.value = false
                     })
@@ -64,7 +66,7 @@ class HomeActivity : ComponentActivity() {
                 )
 
                 {innerPadding -> Box(modifier = Modifier.padding(innerPadding)){
-                    MainNavHost(navController = navController, viewModel = FavoriteCitiesViewModel())
+                    MainNavHost(navController = navController, viewModel = viewModelFavorite)
                 }
 
                 }

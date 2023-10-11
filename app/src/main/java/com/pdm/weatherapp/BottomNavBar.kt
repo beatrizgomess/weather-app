@@ -51,7 +51,7 @@ fun MainNavHost(navController: NavHostController, viewModel: FavoriteCitiesViewM
             HomePage()
         }
         composable(route = BottomNavItem.ListPage.route) {
-            ListPage(viewModel = FavoriteCitiesViewModel())
+            ListPage(viewModel = viewModel)
         }
         composable(route = BottomNavItem.MapPage.route) {
             MapPage()
